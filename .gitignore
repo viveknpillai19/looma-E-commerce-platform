@@ -1,0 +1,11 @@
+# IDE files
+.idea/
+.vscode/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Build artifacts (will have more specific ones inside sub-projects)
+/build
+/target
