@@ -76,6 +76,12 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.postgresql:postgresql:42.7.7" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.49.3" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.38" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-mongodb:3.5.5" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-sync:5.5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:5.5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:5.5.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.mongodb:bson-record-codec:5.5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:4.5.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.h2database:h2:2.3.232" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:3.5.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:3.5.5" level="project" />
