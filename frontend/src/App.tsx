@@ -4,6 +4,7 @@ import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import LoginPage from './pages/LoginPage';
 import { useAuth } from './context/AuthContext'; 
+import RegistrationPage from './pages/RegistrationPage';
 
 function App() {
   const { token, logout } = useAuth();
@@ -28,6 +29,7 @@ function App() {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegistrationPage />} />
         </Routes>
       </main>
     </div>

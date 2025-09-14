@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { loginUser } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -57,13 +58,11 @@ const LoginPage = () => {
           />
         </div>
         <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Sign In
-          </button>
-        </div>
+        <button /* ... */>Sign In</button>
+        <Link to="/register" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+          Create an Account
+        </Link>
+      </div>
       </form>
     </div>
   );
