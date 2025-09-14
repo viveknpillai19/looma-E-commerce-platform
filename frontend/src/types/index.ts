@@ -8,3 +8,12 @@ export interface Product {
   imageUrl: string;
   attributes: { [key: string]: any };
 }
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+}
