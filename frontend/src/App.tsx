@@ -3,8 +3,10 @@ import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import LoginPage from './pages/LoginPage';
+import { useAuth } from './context/AuthContext'; 
 
 function App() {
+  const { token, logout } = useAuth();
   return (
     <div>
       <header className="p-4 bg-gray-800 text-white">
@@ -12,7 +14,12 @@ function App() {
         <nav>
           <Link to="/" className="mr-4">Home</Link>
           <Link to="/products" className="mr-4 hover:text-gray-300">Products</Link>
-          <Link to="/login" className="hover:text-gray-300">Login</Link>
+          {/* DYNAMICALLY RENDER LOGIN/LOGOUT */}
+          {token ? (
+            <button onClick={logout} className="hover:text-gray-300">Logout</button>
+          ) : (
+            <Link to="/login" className="hover:text-gray-300">Login</Link>
+          )}
         </nav>
       </header>
       <main className="p-4">

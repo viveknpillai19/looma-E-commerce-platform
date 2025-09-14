@@ -1,23 +1,22 @@
 import { useState } from 'react';
 import { loginUser } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError(''); // Clear previous errors
     try {
       const data = await loginUser({ email, password });
-      console.log('Login successful:', data);
-      // Store the token (we'll do this properly with context next)
-      localStorage.setItem('token', data.accessToken);
-      
-      // Redirect to the home page on successful login
+      login(data.accessToken);
+        // Redirect to the home page on successful login
       navigate('/');
 
     } catch (err) {
