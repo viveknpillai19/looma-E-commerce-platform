@@ -26,4 +26,6 @@ public class Product {
 
     // A flexible map to hold product-specific attributes (e.g., RAM, color, size).
     private Map<String, Object> attributes;
+
+    private String imageUrl;
 }
