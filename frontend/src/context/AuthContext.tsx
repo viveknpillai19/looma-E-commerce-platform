@@ -1,6 +1,5 @@
-import React, { createContext, useState, useContext, useEffect, type ReactNode } from 'react';
+import React, { createContext, useState, useContext, useEffect,type ReactNode } from 'react';
 
-// Define the shape of the context data
 interface IAuthContext {
     token: string | null;
     isLoading: boolean;
@@ -8,19 +7,12 @@ interface IAuthContext {
     logout: () => void;
 }
 
-// Create the context with a default value of null
 const AuthContext = createContext<IAuthContext | null>(null);
 
-// Create the AuthProvider component
-interface AuthProviderProps {
-    children: ReactNode;
-}
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true); // Start in a loading state
+    const [isLoading, setIsLoading] = useState(true);
 
-    // useEffect to check for a token in localStorage when the app first loads
     useEffect(() => {
         try {
             const storedToken = localStorage.getItem('token');
@@ -28,7 +20,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 setToken(storedToken);
             }
         } finally {
-            // Always set loading to false after the check is complete
             setIsLoading(false);
         }
     }, []);
@@ -50,11 +41,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     );
 };
 
-// Create a custom hook to easily use the auth context in other components
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
+    if (!context) throw new Error('useAuth must be used within an AuthProvider');
     return context;
 };

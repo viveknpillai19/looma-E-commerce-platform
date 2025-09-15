@@ -1,7 +1,3 @@
-export type CartItem = Product & {
-  quantity: number;
-};
-
 export interface Product {
   id: string;
   name: string;
@@ -11,6 +7,15 @@ export interface Product {
   stockQuantity: number;
   imageUrl: string;
   attributes: { [key: string]: any };
+}
+
+export interface CartItem {
+    productId: string;
+    name: string;
+    price: number;
+    imageUrl: string;
+    quantity: number;
+    stockQuantity: number;
 }
 
 export interface LoginCredentials {

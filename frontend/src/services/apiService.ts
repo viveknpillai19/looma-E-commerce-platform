@@ -1,6 +1,6 @@
 // in frontend/src/services/apiService.ts
 import axios from 'axios';
-import type { Product, LoginCredentials, AuthResponse, RegistrationData } from '../types';
+import type { Product, LoginCredentials, AuthResponse, RegistrationData, CartItem } from '../types';
 
 const API_URL = 'http://localhost:8080/api/v1';
 
@@ -42,4 +42,21 @@ export const loginUser = async (credentials: LoginCredentials): Promise<AuthResp
 export const registerUser = async (data: RegistrationData): Promise<any> => {
   const response = await api.post('/auth/register', data);
   return response.data;
+};
+
+export const getCart = async (): Promise<CartItem[]> => {
+  const response = await api.get('/cart');
+  return response.data;
+};
+
+export const addItemToCart = async (productId: string, quantity: number): Promise<void> => {
+  await api.post(`/cart/items`, null, { params: { productId, quantity } });
+};
+
+export const updateCartItemQuantity = async (productId: string, quantity: number): Promise<void> => {
+  await api.put(`/cart/items/${productId}`, { quantity });
+};
+
+export const removeCartItem = async (productId: string): Promise<void> => {
+  await api.delete(`/cart/items/${productId}`);
 };
