@@ -5,6 +5,9 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import LoginPage from './pages/LoginPage';
 import { useAuth } from './context/AuthContext'; 
 import RegistrationPage from './pages/RegistrationPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import AccountPage from './pages/AccountPage';
+
 
 function App() {
   const { token, logout } = useAuth();
@@ -30,6 +33,11 @@ function App() {
           <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
+          
+          <Route element={<ProtectedRoute />}>
+          <Route path="/account" element={<AccountPage />} />
+          {/* We will add more protected routes like /checkout here later */}
+        </Route>
         </Routes>
       </main>
     </div>

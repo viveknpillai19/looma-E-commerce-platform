@@ -1,9 +1,9 @@
-// in frontend/src/context/AuthContext.tsx
 import React, { createContext, useState, useContext, useEffect, type ReactNode } from 'react';
 
 // Define the shape of the context data
 interface IAuthContext {
     token: string | null;
+    isLoading: boolean;
     login: (token: string) => void;
     logout: () => void;
 }
@@ -18,12 +18,18 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [token, setToken] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true); // Start in a loading state
 
-    // useEffect to check for a token in localStorage when the app loads
+    // useEffect to check for a token in localStorage when the app first loads
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        if (storedToken) {
-            setToken(storedToken);
+        try {
+            const storedToken = localStorage.getItem('token');
+            if (storedToken) {
+                setToken(storedToken);
+            }
+        } finally {
+            // Always set loading to false after the check is complete
+            setIsLoading(false);
         }
     }, []);
 
@@ -38,7 +44,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     return (
-        <AuthContext.Provider value={{ token, login, logout }}>
+        <AuthContext.Provider value={{ token, isLoading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
