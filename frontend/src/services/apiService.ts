@@ -60,3 +60,8 @@ export const updateCartItemQuantity = async (productId: string, quantity: number
 export const removeCartItem = async (productId: string): Promise<void> => {
   await api.delete(`/cart/items/${productId}`);
 };
+
+export const createOrder = async (): Promise<any> => {
+  const response = await api.post('/orders');
+  return response.data;
+};

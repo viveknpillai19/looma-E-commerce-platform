@@ -1,16 +1,36 @@
+import { useState, useMemo } from 'react';
 import { useCart } from '../context/CartContext';
-import { Link } from 'react-router-dom';
-import { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import * as apiService from '../services/apiService';
 
 const CartPage = () => {
-  const { cartItems, removeFromCart, updateQuantity, cartTotal, isLoading } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, cartTotal, isLoading: isCartLoading, fetchCart } = useCart();
+  const [error, setError] = useState('');
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const navigate = useNavigate();
 
   const isCheckoutDisabled = useMemo(() => {
     if (!cartItems || cartItems.length === 0) return true;
     return cartItems.some(item => item.quantity > item.stockQuantity);
   }, [cartItems]);
 
-  if (isLoading) {
+  const handleCheckout = async () => {
+    setError('');
+    setIsPlacingOrder(true);
+    try {
+      await apiService.createOrder();
+      await fetchCart(); // This will fetch an empty cart, clearing the UI
+      navigate('/order-confirmation');
+    } catch (err: any) {
+      console.error("Failed to create order:", err);
+      // Display the specific error message from the backend if it exists
+      setError(err.response?.data?.message || 'There was a problem placing your order.');
+    } finally {
+      setIsPlacingOrder(false);
+    }
+  };
+  
+  if (isCartLoading) {
     return <div>Loading Cart...</div>;
   }
 
@@ -36,6 +56,11 @@ const CartPage = () => {
               <div className="flex-grow">
                 <h2 className="text-lg font-semibold">{item.name}</h2>
                 <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                {item.quantity > item.stockQuantity && (
+                  <span className="text-red-500 bg-red-100 text-xs font-semibold px-2 py-1 rounded-full mt-1 inline-block">
+                    Out of Stock ({item.stockQuantity} left)
+                  </span>
+                )}
                 <button
                   onClick={() => removeFromCart(item.productId)}
                   className="text-red-500 hover:text-red-700 text-sm mt-1"
@@ -59,7 +84,7 @@ const CartPage = () => {
           ))}
         </div>
         
-        <div className="bg-gray-100 p-6 rounded-lg">
+        <div className="bg-gray-100 p-6 rounded-lg self-start">
           <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <span>Subtotal</span>
@@ -70,10 +95,18 @@ const CartPage = () => {
             <span>${cartTotal.toFixed(2)}</span>
           </div>
           <button 
-            disabled={isCheckoutDisabled}
-            className="w-full mt-6 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">
-            Proceed to Checkout
+            onClick={handleCheckout}
+            disabled={isCheckoutDisabled || isPlacingOrder}
+            className="w-full mt-6 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
+            {isPlacingOrder ? 'Placing Order...' : 'Proceed to Checkout'}
           </button>
+          {isCheckoutDisabled && !isPlacingOrder && (
+            <p className="text-red-500 text-center text-sm mt-2">
+              Please remove out-of-stock items to continue.
+            </p>
+          )}
+          {error && <p className="text-red-500 text-center text-sm mt-2">{error}</p>}
         </div>
       </div>
     </div>

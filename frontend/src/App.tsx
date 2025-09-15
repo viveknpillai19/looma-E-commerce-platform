@@ -10,6 +10,7 @@ import AccountPage from './pages/AccountPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
 import { useCart } from './context/CartContext';
+import OrderConfirmationPage from './pages/OrderConfirmationPage';
 
 function App() {
     const { token, isLoading: isAuthLoading, logout } = useAuth();
@@ -62,6 +63,7 @@ function App() {
                     <Route path="/cart" element={<CartPage />} />
                     <Route element={<ProtectedRoute />}>
                     <Route path="/account" element={<AccountPage />} />
+                    <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
                     </Route>
                 </Routes>
             </main>
