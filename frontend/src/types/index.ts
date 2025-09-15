@@ -1,3 +1,7 @@
+export type CartItem = Product & {
+  quantity: number;
+};
+
 export interface Product {
   id: string;
   name: string;

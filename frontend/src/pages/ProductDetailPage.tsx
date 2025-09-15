@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import type { Product } from '../types';
 import { getProductById } from '../services/apiService';
+import { useCart } from '../context/CartContext';
 
 const ProductDetailPage = () => {
   // useParams is a hook from react-router-dom that gives us access to URL parameters.
   // We're telling it to expect a parameter named 'id'.
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
+  const { addToCart } = useCart()
 
   useEffect(() => {
     // If there's no id in the URL, we do nothing.
@@ -43,7 +45,12 @@ const ProductDetailPage = () => {
           <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
           <p className="text-gray-600 text-lg mb-6">{product.description}</p>
           <p className="text-3xl font-light text-blue-600 mb-6">${product.price}</p>
-          {/* Add to Cart button will go here */}
+                    <button 
+            onClick={() => addToCart(product)}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
